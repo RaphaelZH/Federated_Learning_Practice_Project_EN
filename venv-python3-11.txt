@@ -2,6 +2,7 @@ autopep8
 beautifultable
 black
 bokeh
+dill
 gitpython
 ipykernel
 ipynbcompress
@@ -10,12 +11,15 @@ jupyter
 jupyterlab
 lightning
 matplotlib
+metaflow
+nbdev
 notebook
 numpy
 openfl
 pandas
 pip
 plotly
+ray
 scikit-learn
 seaborn
 setuptools
