@@ -11,7 +11,7 @@ jupyter
 jupyterlab
 lightning
 matplotlib
-metaflow
+metaflow==2.7.15
 nbdev
 notebook
 numpy
@@ -24,6 +24,10 @@ scikit-learn
 seaborn
 setuptools
 tabulate
+tensorflow
 termcolor
+torch
+torchaudio
+torchvision
 wheel
 yapf
