@@ -28,6 +28,7 @@ tensorflow
 termcolor
 torch
 torchaudio
+torchsummary
 torchvision
 wheel
 yapf
