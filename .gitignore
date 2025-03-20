@@ -1,5 +1,4 @@
 .DS_Store
-CIFAR-10/.metaflow/*
-CIFAR-10/model.pth
-CIFAR-10/optimizer.pth
 venv-python3-11/*
+*/.metaflow
+*.pth
