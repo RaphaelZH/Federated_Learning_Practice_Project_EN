@@ -1,6 +1,6 @@
-FROM openfl_projet
+FROM openfl_projet/aggregator
+FROM openfl_projet/collaborator
 
-COPY . /app
 WORKDIR /app
 
 RUN pip install -r docker_python3-11.txt

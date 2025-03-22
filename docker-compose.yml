@@ -1,0 +1,63 @@
+services:
+
+  aggregator_openfl:
+    build: .
+    ports:
+      - '8888:8888'
+    volumes:
+      - .:/app
+    entrypoint:
+      jupyter lab --ip='0.0.0.0' --port=8888 --no-browser --allow-root
+      --NotebookApp.token='' --NotebookApp.password=''
+    image: openfl_projet/aggregator
+    container_name: aggregator_openfl
+    environment:
+      - PYTHONUNBUFFERED=1
+
+  collaborator_1:
+    image: openfl_projet/collaborator
+    depends_on:
+      - aggregator_openfl
+    container_name: collaborator_1
+    volumes:
+    #  - ./certificates/col0_cert_folder.zip:/current_workspace/col0_cert_folder.zip
+      - ./data/collaborator_1_data:/current_workspace/data/collaborator_1
+    environment:
+      - COLLABORATOR_NAME=collaborator_1
+      - PYTHONUNBUFFERED=1
+
+  collaborator_2:
+    image: openfl_projet/collaborator
+    depends_on:
+      - aggregator_openfl
+    container_name: collaborator_2
+    volumes:
+    #  - ./certificates/col0_cert_folder.zip:/current_workspace/col0_cert_folder.zip
+      - ./data/collaborator_2_data:/current_workspace/data/collaborator_2
+    environment:
+      - COLLABORATOR_NAME=collaborator_2
+      - PYTHONUNBUFFERED=1
+
+  collaborator_3:
+    image: openfl_projet/collaborator
+    depends_on:
+      - aggregator_openfl
+    container_name: collaborator_3
+    volumes:
+    #  - ./certificates/col0_cert_folder.zip:/current_workspace/col0_cert_folder.zip
+      - ./data/collaborator_3_data:/current_workspace/data/collaborator_3
+    environment:
+      - COLLABORATOR_NAME=collaborator_3
+      - PYTHONUNBUFFERED=1
+
+  collaborator_4:
+    image: openfl_projet/collaborator
+    depends_on:
+      - aggregator_openfl
+    container_name: collaborator_4
+    volumes:
+    #  - ./certificates/col0_cert_folder.zip:/current_workspace/col0_cert_folder.zip
+      - ./data/collaborator_4_data:/current_workspace/data/collaborator_4
+    environment:
+      - COLLABORATOR_NAME=collaborator_4
+      - PYTHONUNBUFFERED=1
