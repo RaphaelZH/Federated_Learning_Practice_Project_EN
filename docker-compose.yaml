@@ -1,0 +1,33 @@
+services:
+  pgadmin:
+    image: 'dpage/pgadmin4:latest'
+    ports:
+      - '80:80'
+    environment:
+        PGADMIN_DEFAULT_EMAIL: haozhang@domain.com
+        PGADMIN_DEFAULT_PASSWORD: haozhang
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+  postgresql:
+    image: 'postgres:latest'
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: user_test
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: test_db
+      PGDATA: /var/lib/postgresql/data
+    volumes:
+      - db-data:/var/lib/postgresql/data
+  jupyter:
+    build: .
+    ports:
+      - '8888:8888'
+    volumes:
+      - .:/app
+    entrypoint:
+      jupyter lab --ip='0.0.0.0' --port=8888 --no-browser --allow-root
+      --NotebookApp.token='' --NotebookApp.password=''
+volumes:
+  pgadmin-data:
+  db-data:
