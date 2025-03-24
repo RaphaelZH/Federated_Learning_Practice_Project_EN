@@ -2,4 +2,3 @@
 venv-python3-11/*
 */.metaflow
 *.pth
-.metaflow/FederatedFlow/1743007075810338/_meta/_self.json
