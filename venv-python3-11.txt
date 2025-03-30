@@ -21,6 +21,7 @@ openfl
 pandas
 pip
 plotly
+pyspark
 ray
 scikit-learn
 seaborn
