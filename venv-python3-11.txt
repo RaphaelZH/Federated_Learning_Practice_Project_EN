@@ -3,6 +3,7 @@ beautifultable
 black
 bokeh
 dill
+findspark
 gitpython
 ipykernel
 ipynbcompress
@@ -26,6 +27,7 @@ ray
 scikit-learn
 seaborn
 setuptools
+sparkdl
 tabulate
 tensorflow
 termcolor
