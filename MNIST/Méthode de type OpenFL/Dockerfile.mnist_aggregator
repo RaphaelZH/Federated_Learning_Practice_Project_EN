@@ -1,0 +1,6 @@
+FROM mnist
+
+WORKDIR /current_workspace
+
+# COPY ./dataset.py ./dataset.py
+# CMD ["python", "dataset.py"]
