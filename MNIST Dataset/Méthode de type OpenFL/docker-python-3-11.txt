@@ -3,6 +3,7 @@ beautifultable
 black
 bokeh
 dill
+flwr
 gitpython
 ipykernel
 ipynbcompress
