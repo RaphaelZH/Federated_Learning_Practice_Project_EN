@@ -6,15 +6,14 @@ RUN apt-get update \
   && apt-get -y --no-install-recommends install \
   build-essential \
   && rm -rf /var/lib/apt/lists/*
-USER app
 
+USER app
 WORKDIR /app
 COPY --chown=app:app pyproject.toml .
 RUN sed -i 's/.*flwr\[simulation\].*//' pyproject.toml \
   && python -m pip install -U --no-cache-dir .
 
-COPY --chown=app:app Docker-Flower.txt .
-RUN pip install -U -r Docker-Flower.txt \
-  && pip freeze > Requirements-Docker-Flower.txt
+COPY --chown=app:app docker-flwr.txt .
+RUN pip install -U -r docker-flwr.txt
 
 ENTRYPOINT ["flwr-serverapp"]
