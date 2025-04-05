@@ -13,4 +13,7 @@ COPY --chown=app:app pyproject.toml .
 RUN sed -i 's/.*flwr\[simulation\].*//' pyproject.toml \
     && python -m pip install -U --no-cache-dir .
 
+RUN pip install -U -r Docker-Flower.txt \
+    && pip freeze > Requirements-Docker-Flower.txt
+
 ENTRYPOINT ["flwr-clientapp"]

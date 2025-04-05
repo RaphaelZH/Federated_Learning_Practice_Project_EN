@@ -13,7 +13,7 @@ services:
   serverapp:
     build:
       context: ${PROJECT_DIR:-.}
-      dockerfile: Dockerfile.aggregator
+      dockerfile: Dockerfile-Aggregator
     command:
       - --insecure
       - --serverappio-api-address
@@ -74,7 +74,7 @@ services:
   clientapp-1:
     build:
       context: ${PROJECT_DIR:-.}
-      dockerfile: Dockerfile.collaborator
+      dockerfile: Dockerfile-Collaborator
     command:
       - --insecure
       - --clientappio-api-address
@@ -90,7 +90,7 @@ services:
   clientapp-2:
     build:
       context: ${PROJECT_DIR:-.}
-      dockerfile: Dockerfile.collaborator
+      dockerfile: Dockerfile-Collaborator
     command:
       - --insecure
       - --clientappio-api-address
