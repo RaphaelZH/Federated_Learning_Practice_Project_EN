@@ -13,23 +13,7 @@ services:
   serverapp:
     build:
       context: ${PROJECT_DIR:-.}
-      dockerfile_inline: |
-        FROM flwr/serverapp:${FLWR_VERSION:-1.17.0}
-
-        # gcc is required for the fastai quickstart example
-        USER root
-        RUN apt-get update \
-            && apt-get -y --no-install-recommends install \
-            build-essential \
-            && rm -rf /var/lib/apt/lists/*
-        USER app
-
-        WORKDIR /app
-        COPY --chown=app:app pyproject.toml .
-        RUN sed -i 's/.*flwr\[simulation\].*//' pyproject.toml \
-          && python -m pip install -U --no-cache-dir .
-
-        ENTRYPOINT ["flwr-serverapp"]
+      dockerfile: Dockerfile.aggregator
     command:
       - --insecure
       - --serverappio-api-address
@@ -90,23 +74,7 @@ services:
   clientapp-1:
     build:
       context: ${PROJECT_DIR:-.}
-      dockerfile_inline: |
-        FROM flwr/clientapp:${FLWR_VERSION:-1.17.0}
-
-        # gcc is required for the fastai quickstart example
-        USER root
-        RUN apt-get update \
-            && apt-get -y --no-install-recommends install \
-            build-essential \
-            && rm -rf /var/lib/apt/lists/*
-        USER app
-
-        WORKDIR /app
-        COPY --chown=app:app pyproject.toml .
-        RUN sed -i 's/.*flwr\[simulation\].*//' pyproject.toml \
-          && python -m pip install -U --no-cache-dir .
-
-        ENTRYPOINT ["flwr-clientapp"]
+      dockerfile: Dockerfile.collaborator
     command:
       - --insecure
       - --clientappio-api-address
@@ -122,23 +90,7 @@ services:
   clientapp-2:
     build:
       context: ${PROJECT_DIR:-.}
-      dockerfile_inline: |
-        FROM flwr/clientapp:${FLWR_VERSION:-1.17.0}
-
-        # gcc is required for the fastai quickstart example
-        USER root
-        RUN apt-get update \
-            && apt-get -y --no-install-recommends install \
-            build-essential \
-            && rm -rf /var/lib/apt/lists/*
-        USER app
-
-        WORKDIR /app
-        COPY --chown=app:app pyproject.toml .
-        RUN sed -i 's/.*flwr\[simulation\].*//' pyproject.toml \
-          && python -m pip install -U --no-cache-dir .
-
-        ENTRYPOINT ["flwr-clientapp"]
+      dockerfile: Dockerfile.collaborator
     command:
       - --insecure
       - --clientappio-api-address

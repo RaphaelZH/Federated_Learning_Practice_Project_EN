@@ -1,6 +1,0 @@
-FROM image-python-3-11
-
-WORKDIR /current_workspace
-
-# COPY ./dataset.py ./dataset.py
-# CMD ["python", "dataset.py"]
