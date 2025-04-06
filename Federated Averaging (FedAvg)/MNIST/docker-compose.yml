@@ -13,7 +13,7 @@ services:
   serverapp:
     build:
       context: ${PROJECT_DIR:-.}
-      dockerfile: dockerfile-aggregator
+      dockerfile: dockerfile-serverapp
     command:
       - --insecure
       - --serverappio-api-address
@@ -83,26 +83,26 @@ services:
     depends_on:
       - superlink
 
-#  supernode-5:
-#    image: flwr/supernode:${FLWR_VERSION:-1.17.0}
-#    command:
-#      - --insecure
-#      - --superlink
-#      - superlink:9092
-#      - --clientappio-api-address
-#      - 0.0.0.0:9098
-#      - --isolation
-#      - process
-#      - --node-config
-#      - "partition-id=1 num-partitions=2"
-#    depends_on:
-#      - superlink
+  supernode-5:
+    image: flwr/supernode:${FLWR_VERSION:-1.17.0}
+    command:
+      - --insecure
+      - --superlink
+      - superlink:9092
+      - --clientappio-api-address
+      - 0.0.0.0:9098
+      - --isolation
+      - process
+      - --node-config
+      - "partition-id=1 num-partitions=2"
+    depends_on:
+      - superlink
 
   # create two ClientApp services
   clientapp-1:
     build:
       context: ${PROJECT_DIR:-.}
-      dockerfile: dockerfile-collaborator
+      dockerfile: dockerfile-clientapp
     command:
       - --insecure
       - --clientappio-api-address
@@ -110,7 +110,7 @@ services:
     deploy:
       resources:
         limits:
-          cpus: "2"
+          cpus: "10"
     stop_signal: SIGINT
     depends_on:
       - supernode-1
@@ -118,7 +118,7 @@ services:
   clientapp-2:
     build:
       context: ${PROJECT_DIR:-.}
-      dockerfile: dockerfile-collaborator
+      dockerfile: dockerfile-clientapp
     command:
       - --insecure
       - --clientappio-api-address
@@ -126,7 +126,7 @@ services:
     deploy:
       resources:
         limits:
-          cpus: "2"
+          cpus: "10"
     stop_signal: SIGINT
     depends_on:
       - supernode-2
@@ -134,15 +134,15 @@ services:
   clientapp-3:
     build:
       context: ${PROJECT_DIR:-.}
-      dockerfile: dockerfile-collaborator
+      dockerfile: dockerfile-clientapp
     command:
       - --insecure
       - --clientappio-api-address
-      - supernode-2:9096
+      - supernode-3:9096
     deploy:
       resources:
         limits:
-          cpus: "2"
+          cpus: "10"
     stop_signal: SIGINT
     depends_on:
       - supernode-3
@@ -150,31 +150,31 @@ services:
   clientapp-4:
     build:
       context: ${PROJECT_DIR:-.}
-      dockerfile: dockerfile-collaborator
+      dockerfile: dockerfile-clientapp
     command:
       - --insecure
       - --clientappio-api-address
-      - supernode-2:9097
+      - supernode-4:9097
     deploy:
       resources:
         limits:
-          cpus: "2"
+          cpus: "10"
     stop_signal: SIGINT
     depends_on:
       - supernode-4
 
-#  clientapp-5:
-#    build:
-#      context: ${PROJECT_DIR:-.}
-#      dockerfile: dockerfile-collaborator
-#    command:
-#      - --insecure
-#      - --clientappio-api-address
-#      - supernode-2:9098
-#    deploy:
-#      resources:
-#        limits:
-#          cpus: "2"
-#    stop_signal: SIGINT
-#    depends_on:
-#      - supernode-5
+  clientapp-5:
+    build:
+      context: ${PROJECT_DIR:-.}
+      dockerfile: dockerfile-clientapp
+    command:
+      - --insecure
+      - --clientappio-api-address
+      - supernode-5:9098
+    deploy:
+      resources:
+        limits:
+          cpus: "10"
+    stop_signal: SIGINT
+    depends_on:
+      - supernode-5
