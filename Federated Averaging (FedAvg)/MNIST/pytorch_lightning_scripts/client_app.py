@@ -1,4 +1,4 @@
-"""pytorchlightning_example: A Flower / PyTorch Lightning app."""
+"""pytorch_lightning_scripts: A Flower / PyTorch Lightning app."""
 
 import pytorch_lightning as pl
 from datasets.utils.logging import disable_progress_bar
@@ -7,7 +7,7 @@ from flwr.common import Context
 
 disable_progress_bar()
 
-from pytorchlightning_example.task import (
+from pytorch_lightning_scripts.task import (
     LitAutoEncoder,
     get_parameters,
     load_data,

@@ -1,9 +1,9 @@
-"""pytorchlightning_example: A Flower / PyTorch Lightning app."""
+"""pytorch_lightning_scripts: A Flower / PyTorch Lightning app."""
 
 from flwr.common import Context, ndarrays_to_parameters
 from flwr.server import ServerApp, ServerAppComponents, ServerConfig
 from flwr.server.strategy import FedAvg
-from pytorchlightning_example.task import LitAutoEncoder, get_parameters
+from pytorch_lightning_scripts.task import LitAutoEncoder, get_parameters
 
 
 def server_fn(context: Context) -> ServerAppComponents:

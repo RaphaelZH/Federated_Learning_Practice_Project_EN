@@ -3,15 +3,14 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "pytorch-lightning"
+name = "pytorch_lightning_scripts"
 version = "1.0.0"
 description = "Federated Learning on the MNIST Database with PyTorch Lightning and Flower"
 license = "Apache-2.0"
 dependencies = [
     "flwr[simulation]>=1.17.0",
     "flwr-datasets[vision]>=0.5.0",
-    "pytorch-lightning<2.0.0; sys_platform == 'darwin'",
-    "pytorch-lightning==2.4.0; sys_platform != 'darwin'",
+    "pytorch-lightning==2.4.0",
     "torch==2.5.1",
     "torchvision==0.20.1",
 ]
@@ -23,8 +22,8 @@ packages = ["."]
 publisher = "flwrlabs"
 
 [tool.flwr.app.components]
-serverapp = "pytorch-lightning.server_app:app"
-clientapp = "pytorch-lightning.client_app:app"
+serverapp = "pytorch_lightning_scripts.server_app:app"
+clientapp = "pytorch_lightning_scripts.client_app:app"
 
 [tool.flwr.app.config]
 num-server-rounds = 3

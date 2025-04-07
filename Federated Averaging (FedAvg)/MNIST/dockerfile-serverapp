@@ -11,7 +11,8 @@ USER app
 WORKDIR /app
 COPY --chown=app:app pyproject.toml .
 RUN sed -i 's/.*flwr\[simulation\].*//' pyproject.toml \
-  && python -m pip install -U --no-cache-dir .
+  && python -m pip install -U --no-cache-dir . \
+  && pip install --upgrade pip
 
 #COPY --chown=app:app docker-flwr.txt .
 #RUN pip install -U -r docker-flwr.txt

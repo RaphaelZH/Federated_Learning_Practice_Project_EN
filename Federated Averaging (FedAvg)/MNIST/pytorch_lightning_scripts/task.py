@@ -1,4 +1,4 @@
-"""pytorchlightning_example: A Flower / PyTorch Lightning app."""
+"""pytorch_lightning_scripts: A Flower / PyTorch Lightning app."""
 
 import logging
 from collections import OrderedDict
