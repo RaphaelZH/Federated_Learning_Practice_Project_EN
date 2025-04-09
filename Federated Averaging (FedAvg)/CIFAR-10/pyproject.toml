@@ -3,9 +3,9 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "pytorch_scripts"
+name = "app-pytorch"
 version = "1.0.0"
-description = "Federated Learning on the MNIST Database with PyTorch and Flower"
+description = "Federated Learning on the CIFAR-10 Database with PyTorch and Flower"
 license = "Apache-2.0"
 dependencies = [
     "flwr[simulation]>=1.17.0",
@@ -21,15 +21,13 @@ packages = ["."]
 publisher = "flwrlabs"
 
 [tool.flwr.app.components]
-serverapp = "pytorch_scripts.server_app:app"
-clientapp = "pytorch_scripts.client_app:app"
+serverapp = "app_pytorch.server_app:app"
+clientapp = "app_pytorch.client_app:app"
 
 [tool.flwr.app.config]
-num-server-rounds = 3
-fraction-evaluate = 0.5
+num-server-rounds = 5
+fraction-sample = 0.5
 local-epochs = 1
-learning-rate = 0.001
-batch-size = 500
 
 [tool.flwr.federations]
 default = "local-simulation"
