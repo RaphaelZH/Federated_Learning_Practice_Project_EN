@@ -3,14 +3,13 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "pytorch_lightning_scripts"
+name = "pytorch_scripts"
 version = "1.0.0"
-description = "Federated Learning on the MNIST Database with PyTorch Lightning and Flower"
+description = "Federated Learning on the MNIST Database with PyTorch and Flower"
 license = "Apache-2.0"
 dependencies = [
     "flwr[simulation]>=1.17.0",
     "flwr-datasets[vision]>=0.5.0",
-    "pytorch-lightning==2.4.0",
     "torch==2.5.1",
     "torchvision==0.20.1",
 ]
@@ -22,23 +21,21 @@ packages = ["."]
 publisher = "flwrlabs"
 
 [tool.flwr.app.components]
-serverapp = "pytorch_lightning_scripts.server_app:app"
-clientapp = "pytorch_lightning_scripts.client_app:app"
+serverapp = "pytorch_scripts.server_app:app"
+clientapp = "pytorch_scripts.client_app:app"
 
 [tool.flwr.app.config]
 num-server-rounds = 3
-max-epochs = 1
+fraction-evaluate = 0.5
+local-epochs = 1
+learning-rate = 0.001
+batch-size = 32
 
 [tool.flwr.federations]
 default = "local-simulation"
 
 [tool.flwr.federations.local-simulation]
-options.num-supernodes = 10
-
-[tool.flwr.federations.local-simulation-gpu]
-options.num-supernodes = 10
-options.backend.client-resources.num-cpus = 2 # each ClientApp assumes to use 2CPUs
-options.backend.client-resources.num-gpus = 0.2 # at most 5 ClientApp will run in a given GPU
+options.num-supernodes = 5
 
 [tool.flwr.federations.local-deployment]
 address = "127.0.0.1:9093"
