@@ -28,8 +28,8 @@ clientapp = "app_pytorch.client_app:app"
 num-server-rounds = 5
 fraction-sample = 0.5
 local-epochs = 1
-learning-rate = 0.005
-batch-size = 200
+learning-rate = 0.0025
+batch-size = 100
 
 [tool.flwr.federations]
 default = "local-simulation"
