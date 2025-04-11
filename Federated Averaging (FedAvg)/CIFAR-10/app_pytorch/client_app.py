@@ -39,11 +39,13 @@ def train(msg: Message, context: Context):
 
     # Local training
     local_epochs = context.run_config["local-epochs"]
+    learning_rate = context.run_config["learning-rate"]
     train_loss = train_fn(
         model,
         data_loader,
         local_epochs,
         device,
+        learning_rate
     )
 
     # Extract state_dict from model and construct reply message
@@ -66,6 +68,7 @@ def setup_client(msg: Message, context: Context, is_train: bool):
     # Load partition
     partition_id = context.node_config["partition-id"]
     num_partitions = context.node_config["num-partitions"]
-    trainloader, valloader = load_data(partition_id, num_partitions)
+    batch_size = context.run_config["batch-size"]
+    trainloader, valloader = load_data(partition_id, num_partitions, batch_size)
 
     return model, device, trainloader if is_train else valloader
