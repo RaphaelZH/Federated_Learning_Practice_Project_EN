@@ -1,7 +1,7 @@
 """app-pytorch: A Flower / PyTorch app."""
 
 import torch
-from app_pytorch.task import Net, load_data
+from app_pytorch.task import CustomModel, Net, load_data
 from app_pytorch.task import test as test_fn
 from app_pytorch.task import train as train_fn
 
@@ -58,7 +58,7 @@ def train(msg: Message, context: Context):
 def setup_client(msg: Message, context: Context, is_train: bool):
 
     # Instantiate model
-    model = Net()
+    model = CustomModel()
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
     # Apply global model weights from message

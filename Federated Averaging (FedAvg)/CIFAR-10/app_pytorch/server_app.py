@@ -5,7 +5,7 @@ from logging import INFO, WARN
 from time import sleep
 
 import torch
-from app_pytorch.task import Net
+from app_pytorch.task import CustomModel, Net
 
 from flwr.common import ArrayRecord, Context, Message, MessageType, RecordDict
 from flwr.common.logger import log
@@ -23,7 +23,7 @@ def main(grid: Grid, context: Context) -> None:
     fraction_sample = context.run_config["fraction-sample"]
 
     # Init global model
-    global_model = Net()
+    global_model = CustomModel()
     global_model_key = "model"
 
     for server_round in range(num_rounds):

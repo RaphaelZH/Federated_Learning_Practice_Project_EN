@@ -6,11 +6,12 @@ import torch.nn.functional as F
 from flwr_datasets import FederatedDataset
 from flwr_datasets.partitioner import IidPartitioner
 from torch.utils.data import DataLoader
+from torchvision import models
 from torchvision.transforms import Compose, Normalize, ToTensor
 
 
+
 class Net(nn.Module):
-    """Model (simple CNN adapted from 'PyTorch: A 60 Minute Blitz')"""
 
     def __init__(self):
         super(Net, self).__init__()
@@ -29,6 +30,15 @@ class Net(nn.Module):
         x = F.relu(self.fc2(x))
         return self.fc3(x)
 
+class CustomModel(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.model = models.resnet18()
+        self.conv1 = nn.Conv2d(3, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        self.fc = nn.Linear(in_features=512, out_features=10, bias=True)
+
+    def forward(self, data):
+        return self.model(data)
 
 fds = None  # Cache FederatedDataset
 
