@@ -10,7 +10,6 @@ from torchvision import models
 from torchvision.transforms import Compose, Normalize, ToTensor
 
 
-
 class Net(nn.Module):
 
     def __init__(self):
@@ -30,15 +29,19 @@ class Net(nn.Module):
         x = F.relu(self.fc2(x))
         return self.fc3(x)
 
+
 class CustomModel(nn.Module):
     def __init__(self):
         super().__init__()
         self.model = models.resnet18()
-        self.conv1 = nn.Conv2d(3, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        self.conv1 = nn.Conv2d(
+            3, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False
+        )
         self.fc = nn.Linear(in_features=512, out_features=10, bias=True)
 
     def forward(self, data):
         return self.model(data)
+
 
 fds = None  # Cache FederatedDataset
 
@@ -66,7 +69,9 @@ def load_data(partition_id: int, num_partitions: int, batch_size: int):
         return batch
 
     partition_train_test = partition_train_test.with_transform(apply_transforms)
-    trainloader = DataLoader(partition_train_test["train"], batch_size=batch_size, shuffle=True)
+    trainloader = DataLoader(
+        partition_train_test["train"], batch_size=batch_size, shuffle=True
+    )
     testloader = DataLoader(partition_train_test["test"], batch_size=batch_size)
     return trainloader, testloader
 

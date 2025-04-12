@@ -5,11 +5,13 @@ from logging import INFO, WARN
 from time import sleep
 
 import torch
-from app_pytorch.task import CustomModel, Net
+from app_pytorch.task import Net  # , CustomModel
 
 from flwr.common import ArrayRecord, Context, Message, MessageType, RecordDict
 from flwr.common.logger import log
 from flwr.server import Grid, ServerApp
+
+import numpy as np
 
 # Create ServerApp
 app = ServerApp()
@@ -23,7 +25,7 @@ def main(grid: Grid, context: Context) -> None:
     fraction_sample = context.run_config["fraction-sample"]
 
     # Init global model
-    global_model = CustomModel()
+    global_model = CustomModel() if "CustomModel" in globals() else Net()
     global_model_key = "model"
 
     for server_round in range(num_rounds):
@@ -66,7 +68,7 @@ def main(grid: Grid, context: Context) -> None:
                 log(WARN, f"message {msg.metadata.message_id} as an error.")
 
         # Compute average state dict
-        avg_statedict = average_state_dicts(state_dicts)
+        avg_statedict = FedAvg(state_dicts)
         # Materialize global model
         global_model.load_state_dict(avg_statedict)
 
@@ -118,7 +120,7 @@ def construct_messages(
     return messages
 
 
-def average_state_dicts(state_dicts):
+def FedAvg(state_dicts):
     """Return average state_dict."""
     # Initialize the averaged state dict
     avg_state_dict = {}
