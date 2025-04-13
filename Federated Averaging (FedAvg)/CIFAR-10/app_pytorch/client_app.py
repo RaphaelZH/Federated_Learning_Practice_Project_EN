@@ -1,7 +1,7 @@
 """app-pytorch: A Flower / PyTorch app."""
 
 import torch
-from app_pytorch.task import load_data, Net#, CustomModel
+from app_pytorch.task import load_data, Net, CustomModel
 from app_pytorch.task import test as test_fn
 from app_pytorch.task import train as train_fn
 

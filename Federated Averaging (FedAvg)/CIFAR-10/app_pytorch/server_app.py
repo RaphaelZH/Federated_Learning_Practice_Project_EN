@@ -5,7 +5,7 @@ from logging import INFO, WARN
 from time import sleep
 
 import torch
-from app_pytorch.task import Net  # , CustomModel
+from app_pytorch.task import Net , CustomModel
 
 from flwr.common import ArrayRecord, Context, Message, MessageType, RecordDict
 from flwr.common.logger import log
@@ -127,9 +127,17 @@ def FedAvg(state_dicts):
 
     # Iterate over keys in the first state dict
     for key in state_dicts[0]:
-        # Stack all the tensors for this parameter across state dicts
-        stacked_tensors = torch.stack([sd[key] for sd in state_dicts])
-        # Compute the mean across the 0th dimension
-        avg_state_dict[key] = torch.mean(stacked_tensors, dim=0)
+        if state_dicts[0][key].dim() != 0:
+            # Stack all the tensors for this parameter across state dicts
+            stacked_tensors = torch.stack([sd[key] for sd in state_dicts])
+            # Compute the mean across the 0th dimension
+            avg_state_dict[key] = torch.mean(stacked_tensors, dim=0)
+        else:
+            avg_state_dict[key] = torch.from_numpy(
+                np.average(
+                    [sd[key].reshape(1).cpu().numpy() for sd in state_dicts],
+                    axis=0,
+                )
+            )
 
     return avg_state_dict
