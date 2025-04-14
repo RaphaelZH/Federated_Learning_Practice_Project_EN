@@ -112,3 +112,20 @@ def test(net, testloader, device):
     accuracy = correct / len(testloader.dataset)
     loss = loss / len(testloader)
     return loss, accuracy
+
+
+def device_choice():
+    if torch.backends.mps.is_available():
+        print("MPS is available")
+        device = torch.device("mps:0")
+    elif torch.backends.cuda.is_available():
+        print("CUDA is available")
+        device = torch.device("cuda:0")
+    elif torch.backends.cudnn.is_built():
+        print("CUDNN is available")
+        device = torch.device("cuda:0")
+    else:
+        print("CUDA and MPS are not available")
+        print("Using CPU")
+        device = torch.device("cpu")
+    return device
