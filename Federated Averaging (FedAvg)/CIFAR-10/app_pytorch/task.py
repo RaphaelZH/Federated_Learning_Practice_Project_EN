@@ -76,19 +76,19 @@ def load_data(partition_id: int, num_partitions: int, batch_size: int):
     return trainloader, testloader
 
 
-def train(net, trainloader, epochs, device, learning_rate):
+def train(model, trainloader, epochs, device, learning_rate):
     """Train the model on the training set."""
-    net.to(device)  # move model to GPU if available
+    model.to(device)  # move model to GPU if available
     criterion = torch.nn.CrossEntropyLoss().to(device)
-    optimizer = torch.optim.Adam(net.parameters(), lr=learning_rate)
-    net.train()
+    optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
+    model.train()
     running_loss = 0.0
     for _ in range(epochs):
         for batch in trainloader:
             images = batch["img"]
             labels = batch["label"]
             optimizer.zero_grad()
-            loss = criterion(net(images.to(device)), labels.to(device))
+            loss = criterion(model(images.to(device)), labels.to(device))
             loss.backward()
             optimizer.step()
             running_loss += loss.item()
@@ -97,35 +97,18 @@ def train(net, trainloader, epochs, device, learning_rate):
     return avg_trainloss
 
 
-def test(net, testloader, device):
+def test(model, testloader, device):
     """Validate the model on the test set."""
-    net.to(device)
+    model.to(device)
     criterion = torch.nn.CrossEntropyLoss()
     correct, loss = 0, 0.0
     with torch.no_grad():
         for batch in testloader:
             images = batch["img"].to(device)
             labels = batch["label"].to(device)
-            outputs = net(images)
+            outputs = model(images)
             loss += criterion(outputs, labels).item()
             correct += (torch.max(outputs.data, 1)[1] == labels).sum().item()
     accuracy = correct / len(testloader.dataset)
     loss = loss / len(testloader)
     return loss, accuracy
-
-
-def device_choice():
-    if torch.backends.mps.is_available():
-        print("MPS is available")
-        device = torch.device("mps:0")
-    elif torch.backends.cuda.is_available():
-        print("CUDA is available")
-        device = torch.device("cuda:0")
-    elif torch.backends.cudnn.is_built():
-        print("CUDNN is available")
-        device = torch.device("cuda:0")
-    else:
-        print("CUDA and MPS are not available")
-        print("Using CPU")
-        device = torch.device("cpu")
-    return device

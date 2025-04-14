@@ -5,7 +5,7 @@ from logging import INFO, WARN
 from time import sleep
 
 import torch
-from app_pytorch.task import Net , CustomModel
+from app_pytorch.task import Net, CustomModel
 
 from flwr.common import ArrayRecord, Context, Message, MessageType, RecordDict
 from flwr.common.logger import log

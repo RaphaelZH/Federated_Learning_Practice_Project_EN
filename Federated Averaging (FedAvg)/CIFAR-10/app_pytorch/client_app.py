@@ -1,7 +1,7 @@
 """app-pytorch: A Flower / PyTorch app."""
 
 import torch
-from app_pytorch.task import load_data, device_choice, Net, CustomModel
+from app_pytorch.task import load_data, Net, CustomModel
 from app_pytorch.task import test as test_fn
 from app_pytorch.task import train as train_fn
 
@@ -40,13 +40,7 @@ def train(msg: Message, context: Context):
     # Local training
     local_epochs = context.run_config["local-epochs"]
     learning_rate = context.run_config["learning-rate"]
-    train_loss = train_fn(
-        model,
-        data_loader,
-        local_epochs,
-        device,
-        learning_rate
-    )
+    train_loss = train_fn(model, data_loader, local_epochs, device, learning_rate)
 
     # Extract state_dict from model and construct reply message
     model_record = ArrayRecord(model.state_dict())
@@ -58,8 +52,8 @@ def train(msg: Message, context: Context):
 def setup_client(msg: Message, context: Context, is_train: bool):
 
     # Instantiate model
-    model = CustomModel() if 'CustomModel' in globals() else Net()
-    device = device_choice()
+    model = CustomModel() if "CustomModel" in globals() else Net()
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
     # Apply global model weights from message
     model.load_state_dict(msg.content["model"].to_torch_state_dict())
