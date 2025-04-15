@@ -133,11 +133,6 @@ def FedAvg(state_dicts):
             # Compute the mean across the 0th dimension
             avg_state_dict[key] = torch.mean(stacked_tensors, dim=0)
         else:
-            avg_state_dict[key] = torch.from_numpy(
-                np.average(
-                    [sd[key].reshape(1).cpu().numpy() for sd in state_dicts],
-                    axis=0,
-                )
-            )
-
+            stacked_tensors = torch.stack([sd[key].reshape(1) for sd in state_dicts])
+            avg_state_dict[key] = torch.mean(stacked_tensors.float(), dim=0)
     return avg_state_dict
