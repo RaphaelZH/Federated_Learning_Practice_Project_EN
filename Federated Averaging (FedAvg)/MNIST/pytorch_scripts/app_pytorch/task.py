@@ -10,7 +10,6 @@ from torchvision.transforms import Compose, Normalize, ToTensor
 
 
 class Net(nn.Module):
-    """Model (simple CNN adapted from 'PyTorch: A 60 Minute Blitz')"""
 
     def __init__(self):
         super(Net, self).__init__()
@@ -40,7 +39,7 @@ def load_data(partition_id: int, num_partitions: int):
     if fds is None:
         partitioner = IidPartitioner(num_partitions=num_partitions)
         fds = FederatedDataset(
-            dataset="uoft-cs/cifar10",
+            dataset="ylecun/mnist",
             partitioners={"train": partitioner},
         )
     partition = fds.load_partition(partition_id)
